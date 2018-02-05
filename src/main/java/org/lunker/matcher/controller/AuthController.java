@@ -1,13 +1,14 @@
 package org.lunker.matcher.controller;
 
+import org.lunker.matcher.model.OauthToken;
+import org.lunker.matcher.repository.AuthRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @EnableAutoConfiguration
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @CrossOrigin(origins = "*")
 public class AuthController {
 
     private Logger logger= LoggerFactory.getLogger(AuthController.class);
+
+    @Autowired
+    private AuthRepository authRepository;
 
     @RequestMapping("/login")
     @CrossOrigin(origins = "*")
@@ -45,5 +49,17 @@ public class AuthController {
         }
 
         return "redirect:https://github.com/login/oauth/authorize?client_id=99c43ae2d5370cd235ab";
+    }
+
+    @RequestMapping(value = "/kakao/login", method = RequestMethod.POST)
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<Void> kakaoLogin(@RequestBody OauthToken oauthToken){
+        logger.info("[/kakao/login]");
+
+        logger.info(oauthToken.toString());
+
+        authRepository.save(oauthToken);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

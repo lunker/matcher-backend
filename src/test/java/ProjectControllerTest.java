@@ -19,9 +19,7 @@ import java.net.URL;
 
 
 @RunWith(SpringRunner.class)
-//@SpringBootTest(classes = ProjectControllerTest.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureMockMvc
 public class ProjectControllerTest {
 
     @Autowired

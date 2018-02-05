@@ -18635,7 +18635,7 @@ var DOMPropertyInjection = {
    * with the following properties:
    *
    * Properties: object mapping DOM property name to one of the
-   * DOMPropertyInjection constants or null. If your attribute isn't in here,
+   * DOMPropertyInjection enum or null. If your attribute isn't in here,
    * it won't get written to the DOM.
    *
    * DOMAttributeNames: object mapping React attribute name to the DOM
