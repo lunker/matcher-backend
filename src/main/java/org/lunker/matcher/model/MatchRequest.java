@@ -1,5 +1,8 @@
 package org.lunker.matcher.model;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.lunker.matcher.enums.City;
 import org.lunker.matcher.enums.Gu;
 
@@ -14,7 +17,10 @@ import java.util.regex.Matcher;
  * Created by dongqlee on 2018. 2. 3..
  */
 
+@Data
 @Entity
+@Getter
+@Setter
 public class MatchRequest {
 
     @Id
@@ -23,20 +29,31 @@ public class MatchRequest {
 
     private City city;
     private Gu gu;
-    private int dong;
 
     private int excerciceType;
 
     //Ddate
     private int fromMatchingDate;
     private int toMatchingDate;
+    private int attendNums;
+    private Date createdDate;
+    private Date modifiedDate;
 
-//    private Date createdDate;
-
+    private boolean isMatched;
 
     public MatchRequest(){}
 
-
+    public MatchRequest(City city, Gu gu, int excerciceType, int fromMatchingDate, int toMatchingDate, int attendNums, Date createdDate, Date modifiedDate, boolean isMatched) {
+        this.city = city;
+        this.gu = gu;
+        this.excerciceType = excerciceType;
+        this.fromMatchingDate = fromMatchingDate;
+        this.toMatchingDate = toMatchingDate;
+        this.attendNums = attendNums;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.isMatched = isMatched;
+    }
 
     @Override
     public String toString() {

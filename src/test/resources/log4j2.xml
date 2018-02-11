@@ -17,6 +17,4 @@
             <Appender-ref ref="Console" level="DEBUG" />
         </Logger>
     </Loggers>
-
-
 </Configuration>

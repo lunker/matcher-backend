@@ -36,13 +36,10 @@ public class MatchTest {
     }
 
     @Test
-    public void testCreateMatchRequest() throws Exception{
-        MatchRequest matchRequest=new MatchRequest(0,0,0);
+    public void testGetMatchingOptions(){
+        ResponseEntity<String> responseEntity=restTemplate.getForEntity("/api/match/options", String.class);
+        String responseBody=responseEntity.getBody();
 
-
-        ResponseEntity<Void> responseEntity=restTemplate.postForEntity(
-                "/api/match", matchRequest, null);
-
-        Assert.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        System.out.println(responseBody);
     }
 }

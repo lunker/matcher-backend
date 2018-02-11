@@ -1,5 +1,9 @@
 package org.lunker.matcher.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.lunker.matcher.enums.Exercise;
 import org.lunker.matcher.model.MatchRequest;
 import org.lunker.matcher.repository.MatchRepository;
 import org.slf4j.Logger;
@@ -28,9 +32,7 @@ public class MatchController {
     private MatchRepository matchRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> add(@RequestBody MatchRequest matchRequest){
-
-
+    public ResponseEntity<Void> saveMatchRequest(@RequestBody MatchRequest matchRequest){
         logger.info(matchRequest.toString());
         MatchRequest result=matchRepository.save(matchRequest);
 
@@ -42,5 +44,30 @@ public class MatchController {
             logger.error("Save Error");
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @RequestMapping(value = "/options", method = RequestMethod.GET)
+    public ResponseEntity<String> getMatchOptions(){
+        ResponseEntity<String> responseEntity=null;
+        String result="no result ";
+
+        JsonObject options=new JsonObject();
+        JsonArray exerciseOptions=new JsonArray();
+        JsonObject tmp=new JsonObject();
+
+        Gson gson = new Gson();
+
+        for(Exercise exercise: Exercise.getExercise()){
+            logger.info("[" +  "]" + exercise.getValue() + ":" + exercise.getMax());
+            exerciseOptions.add(gson.toJsonTree(exercise));
+        }
+        options.add("exercise", exerciseOptions);
+
+        result=gson.toJson(options);
+        logger.info(result);
+
+        responseEntity=new ResponseEntity<String>(result, HttpStatus.OK);
+
+        return responseEntity;
     }
 }
