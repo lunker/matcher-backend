@@ -2,3 +2,6 @@
 build/
 .idea/
 .gradle/
+
+# API-key 
+.api_key.json

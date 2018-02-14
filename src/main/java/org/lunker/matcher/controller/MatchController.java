@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import org.lunker.matcher.enums.Exercise;
 import org.lunker.matcher.model.MatchRequest;
 import org.lunker.matcher.repository.MatchRepository;
+import org.lunker.matcher.repository.openapi.CityRepository;
+import org.lunker.matcher.repository.openapi.GuRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,12 @@ public class MatchController {
     @Autowired
     private MatchRepository matchRepository;
 
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private GuRepository guRepository;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> saveMatchRequest(@RequestBody MatchRequest matchRequest){
         logger.info(matchRequest.toString());
@@ -53,6 +61,8 @@ public class MatchController {
 
         JsonObject options=new JsonObject();
         JsonArray exerciseOptions=new JsonArray();
+        JsonArray cityOptions=new JsonArray();
+        JsonArray guOptions=new JsonArray();
         JsonObject tmp=new JsonObject();
 
         Gson gson = new Gson();
@@ -62,6 +72,17 @@ public class MatchController {
             exerciseOptions.add(gson.toJsonTree(exercise));
         }
         options.add("exercise", exerciseOptions);
+
+        cityRepository.findAll().forEach((city)->{
+            cityOptions.add(gson.toJsonTree(city));
+        });
+        options.add("city", cityOptions);
+
+        guRepository.findAll().forEach((gu)->{
+            guOptions.add(gson.toJsonTree(gu));
+        });
+        options.add("gu", guOptions);
+
 
         result=gson.toJson(options);
         logger.info(result);
