@@ -9,10 +9,10 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
-import org.lunker.matcher.model.openapi.City;
-import org.lunker.matcher.model.openapi.Gu;
 import org.lunker.matcher.repository.openapi.CityRepository;
 import org.lunker.matcher.repository.openapi.GuRepository;
+import org.lunker.matcher_common.model.City;
+import org.lunker.matcher_common.model.Gu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +102,7 @@ public class AddressHandler {
         cityStream.forEach((city) -> {
 
             try{
-                String url=requestUrl + "&brtcCd="+ city.getName();
+                String url=requestUrl + "&brtcCd="+ city.getCityName();
                 String strResponse=HttpService.get(url,null);
 
                 org.json.JSONObject xmlJSONObj = XML.toJSONObject(strResponse);
@@ -118,7 +118,7 @@ public class AddressHandler {
 
                 for(int idx=0; idx<array.length(); idx++){
                     item=array.getJSONObject(idx);
-                    gu=new Gu(city.getName(), item.getString("signguCd"));
+                    gu=new Gu(city.getCityName(), item.getString("signguCd"));
 //                    guRepository.save(gu);
                     guList.add(gu);
                 }

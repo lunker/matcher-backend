@@ -1,6 +1,6 @@
 package org.lunker.matcher.repository.openapi;
 
-import org.lunker.matcher.model.openapi.City;
+import org.lunker.matcher_common.model.City;
 import org.springframework.data.repository.CrudRepository;
 
 /**

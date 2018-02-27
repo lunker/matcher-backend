@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <!--<RegexFilter regex="org.lunker.matcher" onMatch="ACCEPT" onMismatch="DENY"/>-->
             <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} [%c:%L %M()]- %msg%n" />-->
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %M():%L %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
     </Appenders>
 
@@ -17,6 +17,4 @@
             <Appender-ref ref="Console" level="DEBUG" />
         </Logger>
     </Loggers>
-
-
 </Configuration>

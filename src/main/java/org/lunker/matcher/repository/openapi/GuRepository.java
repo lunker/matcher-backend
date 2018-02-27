@@ -1,6 +1,6 @@
 package org.lunker.matcher.repository.openapi;
 
-import org.lunker.matcher.model.openapi.Gu;
+import org.lunker.matcher_common.model.Gu;
 import org.springframework.data.repository.CrudRepository;
 
 /**

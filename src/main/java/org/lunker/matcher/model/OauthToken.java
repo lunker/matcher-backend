@@ -1,14 +1,15 @@
 package org.lunker.matcher.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.persistence.*;
 
 /**
  * Created by dongqlee on 2018. 2. 2..
  */
 @Entity
+@Table
 public class OauthToken {
 
     @Id
@@ -79,5 +80,11 @@ public class OauthToken {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
 }

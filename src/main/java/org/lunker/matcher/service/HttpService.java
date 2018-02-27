@@ -4,6 +4,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -21,7 +24,7 @@ public class HttpService {
 
     public static String get(String url, NameValuePair[] nameValuePair) throws IOException {
 
-        logger.info("Generate http GET for url : " + url);
+        logger.info("Generate http GET request for url : " + url);
 
         String strResponse="";
         CloseableHttpClient httpClient= HttpClients.createDefault();
@@ -46,7 +49,35 @@ public class HttpService {
         return strResponse;
     }
 
-    public String post(){
-        return "";
+    public static String post(String url, Object data) throws IOException{
+        logger.info("Generate http POST request for url : " + url);
+
+        String strResponse="";
+        CloseableHttpClient httpClient= HttpClients.createDefault();
+
+        HttpPost httpPost=new HttpPost(url);
+        StringEntity requestEntity = new StringEntity(
+                data.toString(),
+                ContentType.APPLICATION_JSON);
+        httpPost.setEntity(requestEntity);
+
+        CloseableHttpResponse response=httpClient.execute(httpPost);
+        HttpEntity httpEntity=response.getEntity();
+
+        String contentType=response.getFirstHeader("Content-Type").getValue();
+
+        if(contentType.equals("application/xml")){
+            logger.info("xml!");
+            strResponse= EntityUtils.toString(httpEntity);
+        }
+        else {
+            logger.info("json!");
+            strResponse= EntityUtils.toString(httpEntity);
+        }
+
+        EntityUtils.consume(httpEntity);
+
+        return strResponse;
+
     }
 }

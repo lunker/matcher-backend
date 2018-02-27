@@ -1,31 +1,22 @@
 package org.lunker.matcher.controller;
 
-import com.google.gson.*;
-import org.apache.http.*;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.lunker.matcher.model.OauthToken;
-import org.lunker.matcher.model.OauthTokenParam;
 import org.lunker.matcher.repository.AuthRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.*;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,8 +57,6 @@ public class AuthController {
 
         return "redirect:https://github.com/login/oauth/authorize?client_id=99c43ae2d5370cd235ab";
     }
-
-
 
     @RequestMapping(value = "/kakao/login", method = RequestMethod.GET)
     @CrossOrigin(origins = "*")
@@ -125,11 +114,6 @@ public class AuthController {
     public ResponseEntity<?> requestKakaoUserInfo(@RequestParam("token") String token){
 
         String url="https://kapi.kakao.com/v1/user/me";
-        /*
-        JsonArray jsonElements=new JsonArray();
-        jsonElements.add("");
-        String propertyKey=""
-        */
 
         logger.info("Parameter token: " + token);
         ResponseEntity<String> responseEntity=null;
@@ -174,7 +158,6 @@ public class AuthController {
         String kakaoTokenUrl="https://kapi.kakao.com/v1/push/tokens?uuid=" + uuid;
         String adminKey="8fe80aa113b4d4d758139697200be15d";
 
-
         try{
 
             CloseableHttpClient httpClient= HttpClients.createDefault();
@@ -208,5 +191,13 @@ public class AuthController {
         }
 
         return responseEntity;
+    }
+
+    @RequestMapping("/fb/callback")
+    @ResponseBody
+    public String fbLoginCallback(@RequestBody String requestBody){
+        logger.info("/fb/callback");
+        logger.info(requestBody);
+        return "hi!";
     }
 }
