@@ -1,5 +1,8 @@
 package org.lunker.matcher.entity;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,12 +15,15 @@ public class MatchRequestArea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meta_area_id")
     private long id;
 
-    private long requestId;
+    @ManyToOne(targetEntity = MatchRequestMetadata.class)
+    @JoinColumn(name = "req_id")
+    private MatchRequestMetadata reqId;
 
-    private int city_id;
-    private int gu_id;
+    private int cityId;
+    private int guId;
 
     private Date createdDate;
 
@@ -31,33 +37,54 @@ public class MatchRequestArea {
     public MatchRequestArea() {
     }
 
-    public MatchRequestArea(long requestId, int city_id, int gu_id) {
-        this.requestId = requestId;
-        this.city_id = city_id;
-        this.gu_id = gu_id;
+    public MatchRequestArea(MatchRequestMetadata reqId, int cityId, int guId) {
+        this.reqId = reqId;
+        this.cityId = cityId;
+        this.guId = guId;
     }
 
-    public long getRequestId() {
-        return requestId;
+    public MatchRequestMetadata getReqId() {
+        return reqId;
     }
 
-    public void setRequestId(long requestId) {
-        this.requestId = requestId;
+    public void setReqId(MatchRequestMetadata reqId) {
+        this.reqId = reqId;
     }
 
-    public int getCity_id() {
-        return city_id;
+    public int getCityId() {
+        return cityId;
     }
 
-    public void setCity_id(int city_id) {
-        this.city_id = city_id;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
-    public int getGu_id() {
-        return gu_id;
+    public int getGuId() {
+        return guId;
     }
 
-    public void setGu_id(int gu_id) {
-        this.gu_id = gu_id;
+    public void setGuId(int guId) {
+        this.guId = guId;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE).toString();
     }
 }

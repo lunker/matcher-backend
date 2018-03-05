@@ -2,7 +2,6 @@ package org.lunker.matcher.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * Created by dongqlee on 2018. 2. 17..
@@ -13,38 +12,38 @@ public class MatchRequestDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meta_date_id")
     private long id;
 
-    private long requestId;
+    @ManyToOne(targetEntity = MatchRequestMetadata.class)
+    @JoinColumn(name = "req_id")
+    private MatchRequestMetadata reqId;
 
     private LocalDateTime fromDate;
-    private Date toDate;
+    private LocalDateTime toDate;
 
-    private Date createdDate;
-    private Date modifiedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     @PrePersist
     public void createDate(){
-        this.createdDate=this.modifiedDate=new Date();
+        this.createdDate=this.modifiedDate=LocalDateTime.now();
     }
-
 
     public MatchRequestDate() {
 
     }
 
-    public MatchRequestDate(long requestId, Date fromDate, Date toDate) {
-        this.requestId = requestId;
+    public MatchRequestDate(MatchRequestMetadata requestId, LocalDateTime fromDate, LocalDateTime toDate) {
+        this.reqId = reqId;
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
 
-    public MatchRequestDate(long requestId, Date fromDate, Date toDate, Date createdDate, Date modifiedDate) {
-        this.requestId = requestId;
+    public MatchRequestDate(LocalDateTime fromDate, LocalDateTime toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
     }
+
 
     public long getId() {
         return id;
@@ -54,45 +53,44 @@ public class MatchRequestDate {
         this.id = id;
     }
 
-    public long getRequestId() {
-        return requestId;
+
+    public MatchRequestMetadata getReqId() {
+        return reqId;
     }
 
-    public void setRequestId(long requestId) {
-        this.requestId = requestId;
+    public void setReqId(MatchRequestMetadata reqId) {
+        this.reqId = reqId;
     }
 
-    public Date getFromDate() {
+    public LocalDateTime getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(Date fromDate) {
+    public void setFromDate(LocalDateTime fromDate) {
         this.fromDate = fromDate;
     }
 
-    public Date getToDate() {
+    public LocalDateTime getToDate() {
         return toDate;
     }
 
-    public void setToDate(Date toDate) {
+    public void setToDate(LocalDateTime toDate) {
         this.toDate = toDate;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
-
-
 }

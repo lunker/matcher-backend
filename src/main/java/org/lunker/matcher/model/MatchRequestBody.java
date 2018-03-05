@@ -1,7 +1,7 @@
 package org.lunker.matcher.model;
 
-import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.List;
 
@@ -82,6 +82,6 @@ public class MatchRequestBody {
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.reflectionToString(this, new RecursiveToStringStyle()).toString();
+        return ReflectionToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE).toString();
     }
 }

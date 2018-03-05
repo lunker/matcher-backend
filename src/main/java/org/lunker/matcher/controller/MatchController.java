@@ -12,14 +12,10 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.lunker.matcher.entity.MatchRequestArea;
-import org.lunker.matcher.entity.MatchRequestDate;
+import org.lunker.matcher.entity.MatchRequest;
 import org.lunker.matcher.entity.MatchRequestMetadata;
 import org.lunker.matcher.model.MatchRequestBody;
-import org.lunker.matcher.repository.ExerciseRepository;
-import org.lunker.matcher.repository.MatchRequestAreaRepository;
-import org.lunker.matcher.repository.MatchRequestDateRepository;
-import org.lunker.matcher.repository.MatchRequestMetaRepository;
+import org.lunker.matcher.repository.*;
 import org.lunker.matcher.repository.openapi.CityRepository;
 import org.lunker.matcher.repository.openapi.GuRepository;
 import org.slf4j.Logger;
@@ -58,6 +54,9 @@ public class MatchController {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
+    @Autowired
+    private MatchRequestRepository matchRequestRepository;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> saveMatchRequest(@RequestBody MatchRequestBody matchRequestBody){
         logger.info(matchRequestBody.toString());
@@ -69,15 +68,17 @@ public class MatchController {
             logger.info("Save Success! Result:\n" + result.toString());
 
             matchRequestBody.getAreaCandidates().stream().forEach((area)->{
-                logger.info(area.toString());
-                MatchRequestArea areaMapping=new MatchRequestArea(result.getId(), area.getCityId(), area.getGuId());
-                matchRequestAreaRepository.save(areaMapping);
-            });
+                matchRequestBody.getMatchingDateCandidates().stream().forEach((matchingDate)->{
 
-            matchRequestBody.getMatchingDateCandidates().stream().forEach((matchingDate)->{
-                logger.info(matchingDate.toString());
-                MatchRequestDate dateMapping=new MatchRequestDate(result.getId(), matchingDate.getFromMatchingDate(), matchingDate.getToMatchingDate());
-                matchRequestDateRepository.save(dateMapping);
+                    MatchRequest matchRequest=new MatchRequest(result.getId(), area.getCityId(), area.getGuId(), matchingDate.getFromMatchingDate(), matchingDate.getToMatchingDate());
+                    MatchRequest matchRequestResult=null;
+                    matchRequestResult=matchRequestRepository.save(matchRequest);
+
+                    if(matchRequestResult.getReqId() == result.getId())
+                        logger.info("Success to save MatchRequest Entity!");
+                    else
+                        logger.error("Failed to save MatchRequest Entity!");
+                });
             });
 
             return new ResponseEntity<Void>(HttpStatus.OK);
@@ -147,10 +148,24 @@ public class MatchController {
 
         responseEntity=new ResponseEntity<String>(result, HttpStatus.OK);
 
-//        return responseEntity;
         return result;
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public String getMatchingResult(){
+        StringBuilder stringBuilder=new StringBuilder();
+
+        /*
+        matchRequestAreaRepository.findByCityIdAndGuId(1, 120).forEach((area)->{
+            logger.info(area.toString());
+            stringBuilder.append(area.toString()+"\n");
+        });
+        */
+
+
+        return stringBuilder.toString();
+    }
 
     @RequestMapping("/send")
     public ResponseEntity<String> testSend(@RequestParam("token") String token){

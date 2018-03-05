@@ -16,13 +16,15 @@ public class MatchRequestMetadata {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "req_id")
     private long id;
 
     private String userId;
     private boolean isComplete=false;
 
     private int exerciseId;
-    private int attendeeNum;
+
+    private int attendeeNum=1;
 
     @Column(name = "created_date")
     private Date createdDate;

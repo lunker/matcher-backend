@@ -1,7 +1,7 @@
 package org.lunker.matcher.model;
 
-import org.apache.commons.lang3.builder.RecursiveToStringStyle;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * Created by dongqlee on 2018. 2. 17..
@@ -37,7 +37,7 @@ public class Area {
 
     @Override
     public String toString() {
-//        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE).toString();
-        return ReflectionToStringBuilder.reflectionToString(this, new RecursiveToStringStyle()).toString();
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE).toString();
+//        return ReflectionToStringBuilder.reflectionToString(this, new RecursiveToStringStyle()).toString();
     }
 }

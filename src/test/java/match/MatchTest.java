@@ -16,7 +16,6 @@ import java.net.URL;
  * Created by dongqlee on 2018. 1. 8..
  */
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MatchTest {
@@ -34,6 +33,20 @@ public class MatchTest {
     @Test
     public void testGetMatchingOptions(){
         ResponseEntity<String> responseEntity=restTemplate.getForEntity("/api/match/options", String.class);
+        String responseBody=responseEntity.getBody();
+
+        System.out.println(responseBody);
+    }
+
+    @Test
+    public void generateDummyMatching(){
+        RequestGenerator requestGenerator=new RequestGenerator();
+        requestGenerator.generate();
+    }
+
+    @Test
+    public void testMatching(){
+        ResponseEntity<String> responseEntity=restTemplate.getForEntity("/api/match", String.class);
         String responseBody=responseEntity.getBody();
 
         System.out.println(responseBody);

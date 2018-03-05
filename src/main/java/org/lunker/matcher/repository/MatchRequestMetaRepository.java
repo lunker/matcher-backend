@@ -8,4 +8,10 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface MatchRequestMetaRepository extends CrudRepository<MatchRequestMetadata, Long>{
 
+
+    Iterable<MatchRequestMetadata> findByIsComplete(boolean isComplete);
+
+
+
+
 }
