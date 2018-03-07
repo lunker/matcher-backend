@@ -70,7 +70,14 @@ public class MatchController {
             matchRequestBody.getAreaCandidates().stream().forEach((area)->{
                 matchRequestBody.getMatchingDateCandidates().stream().forEach((matchingDate)->{
 
-                    MatchRequest matchRequest=new MatchRequest(result.getId(), area.getCityId(), area.getGuId(), matchingDate.getFromMatchingDate(), matchingDate.getToMatchingDate());
+                    MatchRequest matchRequest=new MatchRequest(
+                            result.getId(),
+                            area.getCityId(),
+                            area.getGuId(),
+                            matchingDate.getFromMatchingDate(),
+                            matchingDate.getFromMatchingDate().getHour(),
+                            matchingDate.getToMatchingDate());
+
                     MatchRequest matchRequestResult=null;
                     matchRequestResult=matchRequestRepository.save(matchRequest);
 
