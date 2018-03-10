@@ -94,9 +94,8 @@ public class RequestGenerator {
     }
 
     private TimeZone randDate(){
-        LocalDateTime from=LocalDateTime.now().plusHours(2);
-        LocalDateTime to=from.plusHours( (int)( Math.random() * 18) + 1);
+        LocalDateTime from=LocalDateTime.now().plusHours((int)( Math.random() * 18) + 1);
 
-        return new TimeZone(from, to);
+        return new TimeZone(from.toLocalDate(), from.getHour());
     }
 }

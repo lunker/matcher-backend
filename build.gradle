@@ -85,7 +85,11 @@ dependencies {
 
     compile files('libs/matcher-common-1.0-SNAPSHOT.jar')
 
+    // apache commons
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+
+    // jedis
+    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 }
 
 jar {

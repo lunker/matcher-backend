@@ -1,6 +1,7 @@
 package org.lunker.matcher.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -8,23 +9,29 @@ import java.util.Date;
  * Created by dongqlee on 2018. 3. 2..
  */
 @Entity
+@Table(indexes = {@Index(name = "IDX_MR_REQ", columnList = "req_id"), @Index(name = "IDX_MR_GU", columnList = "gu_id")})
 public class MatchRequest {
     @Id
     @GeneratedValue
     @Column(name = "sub_req_id")
     private long id;
 
+    // parent 'metarequest' id
+    @Column(name = "req_id")
     private long reqId;
 
     @Column(name = "city_id")
     private int cityId;
+
+    @Column(name = "gu_id")
     private int guId;
 
-    private LocalDateTime fromDate;
+    private LocalDate fromDate;
 
     @Column(name = "start_hour")
     private int startHour;
-    private LocalDateTime toDate;
+
+//    private LocalDateTime toDate;
 
     @Column(name = "created_date")
     private Date createdDate;
@@ -34,21 +41,12 @@ public class MatchRequest {
 
     public MatchRequest() {}
 
-    public MatchRequest(long reqId, int cityId, int guId, LocalDateTime fromDate, LocalDateTime toDate) {
-        this.reqId = reqId;
-        this.cityId = cityId;
-        this.guId = guId;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-    }
-
-    public MatchRequest(long reqId, int cityId, int guId, LocalDateTime fromDate, int startHour, LocalDateTime toDate) {
+    public MatchRequest(long reqId, int cityId, int guId, LocalDate fromDate, int startHour) {
         this.reqId = reqId;
         this.cityId = cityId;
         this.guId = guId;
         this.fromDate = fromDate;
         this.startHour = startHour;
-        this.toDate = toDate;
     }
 
     @ManyToOne(targetEntity = MatchRequestMetadata.class)
@@ -77,20 +75,12 @@ public class MatchRequest {
         this.guId = guId;
     }
 
-    public LocalDateTime getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateTime fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
-    }
-
-    public LocalDateTime getToDate() {
-        return toDate;
-    }
-
-    public void setToDate(LocalDateTime toDate) {
-        this.toDate = toDate;
     }
 
     public int getStartHour() {

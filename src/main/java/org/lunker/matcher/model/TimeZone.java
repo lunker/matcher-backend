@@ -3,38 +3,38 @@ package org.lunker.matcher.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Created by dongqlee on 2018. 2. 19..
  */
 public class TimeZone {
 
-    private LocalDateTime fromMatchingDate;
-    private LocalDateTime toMatchingDate;
+    private LocalDate fromMatchingDate;
+    private int fromMatchingHour;
 
     public TimeZone() {
     }
 
-    public TimeZone(LocalDateTime fromMatchingDate, LocalDateTime toMatchingDate) {
+    public TimeZone(LocalDate fromMatchingDate, int fromMatchingHour) {
         this.fromMatchingDate = fromMatchingDate;
-        this.toMatchingDate = toMatchingDate;
+        this.fromMatchingHour = fromMatchingHour;
     }
 
-    public LocalDateTime getFromMatchingDate() {
+    public LocalDate getFromMatchingDate() {
         return fromMatchingDate;
     }
 
-    public void setFromMatchingDate(LocalDateTime fromMatchingDate) {
+    public void setFromMatchingDate(LocalDate fromMatchingDate) {
         this.fromMatchingDate = fromMatchingDate;
     }
 
-    public LocalDateTime getToMatchingDate() {
-        return toMatchingDate;
+    public int getFromMatchingHour() {
+        return fromMatchingHour;
     }
 
-    public void setToMatchingDate(LocalDateTime toMatchingDate) {
-        this.toMatchingDate = toMatchingDate;
+    public void setFromMatchingHour(int fromMatchingHour) {
+        this.fromMatchingHour = fromMatchingHour;
     }
 
     @Override

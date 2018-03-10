@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by dongqlee on 2018. 2. 16.
  */
 @Entity
-@Table(name = "match_request_meta")
+@Table(name = "match_request_meta", indexes = {@Index(name = "IDX_MRM", columnList = "is_complete, exercise_id")})
 public class MatchRequestMetadata {
 
     @Id
@@ -20,8 +20,12 @@ public class MatchRequestMetadata {
     private long id;
 
     private String userId;
+
+
+    @Column(name = "is_complete")
     private boolean isComplete=false;
 
+    @Column(name = "exercise_id")
     private int exerciseId;
 
     private int attendeeNum=1;

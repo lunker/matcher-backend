@@ -14,10 +14,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.lunker.matcher.entity.MatchRequest;
 import org.lunker.matcher.entity.MatchRequestMetadata;
+import org.lunker.matcher.model.Area;
 import org.lunker.matcher.model.MatchRequestBody;
+import org.lunker.matcher.model.TimeZone;
 import org.lunker.matcher.repository.*;
 import org.lunker.matcher.repository.openapi.CityRepository;
 import org.lunker.matcher.repository.openapi.GuRepository;
+import org.lunker.matcher.service.MatchingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dongqlee on 2018. 2. 3..
@@ -57,6 +64,9 @@ public class MatchController {
     @Autowired
     private MatchRequestRepository matchRequestRepository;
 
+    @Autowired
+    private MatchingService matchingService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> saveMatchRequest(@RequestBody MatchRequestBody matchRequestBody){
         logger.info(matchRequestBody.toString());
@@ -75,8 +85,7 @@ public class MatchController {
                             area.getCityId(),
                             area.getGuId(),
                             matchingDate.getFromMatchingDate(),
-                            matchingDate.getFromMatchingDate().getHour(),
-                            matchingDate.getToMatchingDate());
+                            matchingDate.getFromMatchingHour());
 
                     MatchRequest matchRequestResult=null;
                     matchRequestResult=matchRequestRepository.save(matchRequest);
@@ -161,17 +170,30 @@ public class MatchController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String getMatchingResult(){
+
+        List<MatchRequest> results=new ArrayList<>();
         StringBuilder stringBuilder=new StringBuilder();
+        List<TimeZone> timeZones=new ArrayList<>();
 
-        /*
-        matchRequestAreaRepository.findByCityIdAndGuId(1, 120).forEach((area)->{
-            logger.info(area.toString());
-            stringBuilder.append(area.toString()+"\n");
-        });
-        */
+        LocalDateTime from=LocalDateTime.now();
 
+        timeZones.add(new TimeZone(from.toLocalDate(), from.getHour()));
+        timeZones.add(new TimeZone(from.plusHours( (int) (Math.random() * 24)  +1 ).toLocalDate(), from.getHour()));
+        timeZones.add(new TimeZone(from.plusHours( (int) (Math.random() * 24)  +1 ).toLocalDate(), from.getHour()));
+        timeZones.add(new TimeZone(from.plusHours( (int) (Math.random() * 24)  +1 ).toLocalDate(), from.getHour()));
+        timeZones.add(new TimeZone(from.plusHours( (int) (Math.random() * 24)  +1 ).toLocalDate(), from.getHour()));
 
-        return stringBuilder.toString();
+        List<Area> areas=new ArrayList<>();
+        areas.add(new Area(1,20));
+        areas.add(new Area(1,4));
+        areas.add(new Area(1,8));
+
+        int exerciseId=1;
+        results=matchingService.matching(exerciseId, timeZones, areas);
+
+        Gson gson=new Gson();
+
+        return gson.toJson(results);
     }
 
     @RequestMapping("/send")
